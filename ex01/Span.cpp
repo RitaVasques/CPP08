@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:24:02 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/04/02 16:43:22 by ritavasques      ###   ########.fr       */
+/*   Updated: 2025/04/03 11:50:57 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ const std::vector<int> & Span::getNbrs(void) const {
 
 void Span::addNumber(int nbr) {
 	if (this->_nbrs.size() < this->_N)
-	{
 		this->_nbrs.push_back(nbr);
-		std::cout << this->_nbrs.back() << " was added to the container" << std::endl;
-	}
 	else
 	{
 		std::cout << "container if full" << std::endl;
@@ -66,5 +63,38 @@ void Span::addSeveral(std::vector<int>::iterator begin, std::vector<int>::iterat
 	}
 	this->_nbrs.insert(this->_nbrs.end(), begin, end);
 }
-//unsigned int Span::shortestSpan(void) {}
-//unsigned int Span::longestSpan(void) {}
+
+unsigned int Span::shortestSpan(void) {
+	std::vector<int> temp = this->_nbrs;
+	unsigned int shortest = temp[1] - temp[0];
+	unsigned int distance = 0;
+	
+	if (temp.size() < 2)
+	{
+		std::cout << "not enough elements" << std::endl;	
+		throw std::exception();
+	}
+	std::sort(temp.begin(), temp.end());
+	for (unsigned int i = 1; i < temp.size(); i++)
+	{
+		distance = temp[i] - temp[i - 1];
+		if (distance < shortest)
+			shortest = distance;
+	}
+	return shortest;
+}
+
+unsigned int Span::longestSpan(void) {
+	std::vector<int> temp = this->_nbrs;
+	unsigned int longest = 0;
+	
+	if (temp.size() < 2)
+	{
+		std::cout << "not enough elements" << std::endl;	
+		throw std::exception();
+	}
+	std::sort(temp.begin(), temp.end());
+	longest = *(temp.end() - 1) - *temp.begin();
+	
+	return longest;
+}
